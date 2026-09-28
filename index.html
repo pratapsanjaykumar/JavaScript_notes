@@ -1,0 +1,2699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Complete JavaScript Notes from Basic to Advanced with detailed paragraph theory, pure JS source code, and live interactive visual output previews.">
+  <meta name="keywords" content="JavaScript Notes, JS Tutorial, Web Development, ES6, DOM Manipulation, Async JS, Pratap Sanjay Sir">
+  <meta name="author" content="Pratap Sanjay Sir">
+
+  <title>Complete JavaScript Notes - Basic to Advanced | Pratap Sanjay Sir</title>
+
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #ca8a04 100%);
+      --card-bg: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --primary: #ca8a04;
+      --primary-dark: #854d0e;
+      --accent-glow: rgba(202, 138, 4, 0.2);
+      --border-color: #e2e8f0;
+      --code-bg: #0b0f19;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.7;
+      background: #f8fafc;
+      color: var(--text-main);
+      overflow-x: hidden;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes floatBadge {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 0 0 rgba(202, 138, 4, 0.4); }
+      70% { box-shadow: 0 0 0 12px rgba(202, 138, 4, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(202, 138, 4, 0); }
+    }
+
+    .hero {
+      background: var(--bg-gradient);
+      color: white;
+      padding: 70px 20px 60px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 15px 35px rgba(15, 23, 42, 0.25);
+      animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hero-badge-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      padding: 6px 18px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+      color: #fef08a;
+      animation: floatBadge 3s ease-in-out infinite;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: 14px;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      opacity: 0.95;
+      max-width: 800px;
+      margin: 0 auto;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    }
+
+    .hero-tags {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .hero-pill {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ffffff;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hero-pill:hover {
+      background: rgba(202, 138, 4, 0.4);
+      transform: translateY(-2px);
+      border-color: #fde047;
+      box-shadow: 0 5px 15px rgba(202, 138, 4, 0.3);
+    }
+
+    .container {
+      width: min(1200px, 94%);
+      margin: 0 auto;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr);
+      gap: 30px;
+      align-items: start;
+      margin: 35px auto 60px;
+    }
+
+    .toc {
+      position: sticky;
+      top: 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      max-height: calc(100vh - 40px);
+      display: flex;
+      flex-direction: column;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .toc-header {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: white;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .toc-header-icon {
+      font-size: 1.6rem;
+      line-height: 1;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 8px;
+      border-radius: 10px;
+    }
+
+    .toc-header h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0;
+      color: #ffffff;
+    }
+
+    .toc-header p {
+      font-size: 0.8rem;
+      opacity: 0.9;
+      margin: 0;
+    }
+
+    .toc-list {
+      list-style: none;
+      padding: 12px;
+      margin: 0;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .toc-list::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .toc-list::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+
+    .toc-list a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.86rem;
+      font-weight: 500;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      border-left: 3px solid transparent;
+    }
+
+    .toc-list a:hover {
+      background: #fefce8;
+      color: var(--primary-dark);
+      border-left: 3px solid #eab308;
+      padding-left: 15px;
+    }
+
+    .toc-list code {
+      background: #fef9c3;
+      color: var(--primary-dark);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.76rem;
+      font-family: Consolas, monospace;
+      font-weight: 600;
+    }
+
+    .toc-summary-link {
+      background: #fef3c7 !important;
+      color: #92400e !important;
+      font-weight: 700 !important;
+      margin-top: 8px;
+    }
+
+    main {
+      min-width: 0;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .separator {
+      margin-bottom: 25px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+      transition: transform 0.3s ease;
+    }
+
+    .separator:hover {
+      transform: scale(1.01);
+    }
+
+    .separator img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .intro-banner {
+      background: linear-gradient(135deg, #ffffff 0%, #fefce8 100%);
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 28px;
+      border-left: 6px solid #eab308;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border-color);
+      border-left-width: 6px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .intro-banner:hover {
+      box-shadow: 0 15px 35px rgba(202, 138, 4, 0.12);
+      transform: translateY(-2px);
+    }
+
+    .intro-banner h2 {
+      color: var(--primary-dark);
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .intro-banner p {
+      color: #334155;
+      font-size: 0.98rem;
+      line-height: 1.7;
+      margin-bottom: 10px;
+    }
+
+    .intro-banner p:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 30px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.03);
+      scroll-margin-top: 25px;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .section-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.07);
+      border-color: rgba(202, 138, 4, 0.3);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 14px;
+    }
+
+    .card-header h2 {
+      color: #0f172a;
+      font-size: 1.45rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+    }
+
+    .tag-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge-tag {
+      background: #fef9c3;
+      color: var(--primary-dark);
+      border: 1px solid #fde047;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: Consolas, 'Courier New', monospace;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .badge-type {
+      background: #f8fafc;
+      color: var(--text-muted);
+      border: 1px solid #cbd5e1;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .notes-container {
+      background: #f8fafc;
+      border-left: 4px solid #eab308;
+      border-radius: 0 10px 10px 0;
+      padding: 18px 22px;
+      margin-bottom: 20px;
+      border: 1px solid #f1f5f9;
+      border-left-width: 4px;
+      border-left-color: #eab308;
+    }
+
+    .notes-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .notes-container p {
+      color: #334155;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 10px;
+    }
+
+    .notes-container p:last-child {
+      margin-bottom: 0;
+    }
+
+    .notes-container strong {
+      color: #0f172a;
+    }
+
+    .box-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .code-label {
+      color: #475569;
+    }
+
+    .code-block {
+      background: var(--code-bg);
+      color: #f8fafc;
+      border-radius: 12px;
+      padding: 18px 22px;
+      overflow-x: auto;
+      font-family: Consolas, 'Courier New', monospace;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      border: 1px solid #1e293b;
+      margin-bottom: 20px;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+      white-space: pre;
+    }
+
+    .output-label {
+      color: #16a34a;
+    }
+
+    .output-preview {
+      background: #ffffff;
+      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      padding: 22px;
+      min-height: 45px;
+      position: relative;
+      transition: border-color 0.3s ease;
+    }
+
+    .output-preview:hover {
+      border-color: #94a3b8;
+    }
+
+    .output-preview button,
+    .btn-action {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      margin-right: 6px;
+      margin-bottom: 6px;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    }
+
+    .output-preview button:hover,
+    .btn-action:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+    }
+
+    .output-preview button:active {
+      transform: translateY(0);
+    }
+
+    .output-preview input[type="text"],
+    .output-preview input[type="number"],
+    .output-preview input[type="email"],
+    .output-preview select {
+      padding: 9px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      outline: none;
+      transition: all 0.25s ease;
+      background: #f8fafc;
+    }
+
+    .output-preview input:focus,
+    .output-preview select:focus {
+      border-color: #3b82f6;
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+
+    .demo-result-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-top: 12px;
+      font-size: 0.92rem;
+      color: #0f172a;
+      min-height: 26px;
+      font-family: Consolas, 'Segoe UI', monospace;
+      animation: fadeInDown 0.3s ease-out;
+    }
+
+    .msg-success {
+      color: #16a34a;
+      font-weight: bold;
+    }
+
+    .msg-error {
+      color: #dc2626;
+      font-weight: bold;
+    }
+
+    footer {
+      background: #0f172a;
+      color: #94a3b8;
+      text-align: center;
+      padding: 50px 20px;
+      border-top: 1px solid #1e293b;
+    }
+
+    footer p {
+      margin: 6px 0;
+      font-size: 0.95rem;
+    }
+
+    footer .author-highlight {
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    @media (max-width: 950px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .toc {
+        position: static;
+        max-height: 320px;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="container">
+      <span class="hero-badge-top">⚡ Full-Stack JavaScript Mastery</span>
+      <h1>Complete JavaScript Notes</h1>
+      <p>Master Modern JavaScript (ES6+) with Detailed Paragraph Theory, Clean Source Code & Live Interactive Execution for Every Concept.</p>
+      <div class="hero-tags">
+        <span class="hero-pill">📖 50 Core Topics</span>
+        <span class="hero-pill">⚡ DOM & Events</span>
+        <span class="hero-pill">🔄 Async / Await & Fetch API</span>
+        <span class="hero-pill">👨‍🏫 Prepared by Pratap Sanjay Sir</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container layout">
+
+    <aside class="toc">
+      <div class="toc-header">
+        <span class="toc-header-icon">📑</span>
+        <div>
+          <h2>JS Index</h2>
+          <p>Quick Navigation Index</p>
+        </div>
+      </div>
+      <ol class="toc-list">
+        <li><a href="#js-1">1. Introduction <code>console.log()</code></a></li>
+        <li><a href="#js-2">2. Output Methods <code>innerHTML, textContent</code></a></li>
+        <li><a href="#js-3">3. Variables <code>let, const, var</code></a></li>
+        <li><a href="#js-4">4. Data Types <code>typeof</code></a></li>
+        <li><a href="#js-5">5. Operators <code>+, -, *, /, ===</code></a></li>
+        <li><a href="#js-6">6. Conditional <code>if...else</code></a></li>
+        <li><a href="#js-7">7. Switch Case <code>switch (key)</code></a></li>
+        <li><a href="#js-8">8. For Loop <code>for (i=0; i&lt;n)</code></a></li>
+        <li><a href="#js-9">9. While Loop <code>while (condition)</code></a></li>
+        <li><a href="#js-10">10. Do While Loop <code>do...while</code></a></li>
+        <li><a href="#js-11">11. Functions <code>function name()</code></a></li>
+        <li><a href="#js-12">12. Parameters <code>function(a, b)</code></a></li>
+        <li><a href="#js-13">13. Return Value <code>return result</code></a></li>
+        <li><a href="#js-14">14. Arrow Functions <code>() =&gt; {}</code></a></li>
+        <li><a href="#js-15">15. Arrays <code>[item1, item2]</code></a></li>
+        <li><a href="#js-16">16. Array Methods <code>push, pop, shift</code></a></li>
+        <li><a href="#js-17">17. Array Looping <code>for...of</code></a></li>
+        <li><a href="#js-18">18. Map Method <code>array.map()</code></a></li>
+        <li><a href="#js-19">19. Filter Method <code>array.filter()</code></a></li>
+        <li><a href="#js-20">20. Reduce Method <code>array.reduce()</code></a></li>
+        <li><a href="#js-21">21. Objects <code>{ key: value }</code></a></li>
+        <li><a href="#js-22">22. Object Methods <code>this.property</code></a></li>
+        <li><a href="#js-23">23. String Methods <code>toUpperCase, charAt</code></a></li>
+        <li><a href="#js-24">24. Number Methods <code>toFixed, parseInt</code></a></li>
+        <li><a href="#js-25">25. DOM Intro <code>document.body</code></a></li>
+        <li><a href="#js-26">26. getElementById <code>getElementById</code></a></li>
+        <li><a href="#js-27">27. querySelector <code>querySelector</code></a></li>
+        <li><a href="#js-28">28. createElement <code>appendChild()</code></a></li>
+        <li><a href="#js-29">29. Events <code>onclick</code></a></li>
+        <li><a href="#js-30">30. Event Listener <code>addEventListener</code></a></li>
+        <li><a href="#js-31">31. Form Validation <code>trim(), check</code></a></li>
+        <li><a href="#js-32">32. Math Object <code>Math.sqrt, random</code></a></li>
+        <li><a href="#js-33">33. Date Object <code>new Date()</code></a></li>
+        <li><a href="#js-34">34. setTimeout <code>setTimeout()</code></a></li>
+        <li><a href="#js-35">35. setInterval <code>setInterval()</code></a></li>
+        <li><a href="#js-36">36. JSON <code>parse(), stringify()</code></a></li>
+        <li><a href="#js-37">37. Destructuring <code>const {a, b}</code></a></li>
+        <li><a href="#js-38">38. Spread Operator <code>[...arr]</code></a></li>
+        <li><a href="#js-39">39. Rest Parameter <code>...args</code></a></li>
+        <li><a href="#js-40">40. Template Literals <code>${variable}</code></a></li>
+        <li><a href="#js-41">41. Try Catch Error <code>try...catch</code></a></li>
+        <li><a href="#js-42">42. ES6 Classes <code>class Student</code></a></li>
+        <li><a href="#js-43">43. Constructors <code>constructor()</code></a></li>
+        <li><a href="#js-44">44. Inheritance <code>class Sub extends</code></a></li>
+        <li><a href="#js-45">45. Promises <code>new Promise()</code></a></li>
+        <li><a href="#js-46">46. Async / Await <code>async () =&gt; await</code></a></li>
+        <li><a href="#js-47">47. Fetch API <code>fetch(url)</code></a></li>
+        <li><a href="#js-48">48. LocalStorage <code>localStorage.setItem</code></a></li>
+        <li><a href="#js-49">49. SessionStorage <code>sessionStorage</code></a></li>
+        <li><a href="#js-50">50. Regular Expressions <code>regex.test()</code></a></li>
+        <li><a href="#js-summary" class="toc-summary-link">51. Summary & Practice 🎓</a></li>
+      </ol>
+    </aside>
+
+    <main>
+
+     <div class="separator" style="clear: both;"><a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhcJxeyo47jJnDpVDhrJ2rsDaVmP-Nv40ncs4mEpOdxBg0LiC_-DgzhpUn2ks0xAXXWobKjZGnbYPY391FTYz_m4bM83ytVJzrzXC0zbY6g-3sTmqGbBzGpgO4OHwcJwk7aqcn6_WSYNs5Jau_4TDMIW9l7CQi3Sb9XBQjH45FRxiYMhfPtlG8V0dHChrg/s1600/JavaScript%20by%20Pratap%20Sanjay%20Sir.png" style="display: block; padding: 1em 0; text-align: center; "><img alt="" border="0" data-original-height="1312" data-original-width="3280" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhcJxeyo47jJnDpVDhrJ2rsDaVmP-Nv40ncs4mEpOdxBg0LiC_-DgzhpUn2ks0xAXXWobKjZGnbYPY391FTYz_m4bM83ytVJzrzXC0zbY6g-3sTmqGbBzGpgO4OHwcJwk7aqcn6_WSYNs5Jau_4TDMIW9l7CQi3Sb9XBQjH45FRxiYMhfPtlG8V0dHChrg/s1600/JavaScript%20by%20Pratap%20Sanjay%20Sir.png"/></a></div> 
+      
+      <section class="intro-banner">
+        <h2>⚡ Introduction to JavaScript</h2>
+        <p><strong>JavaScript (JS)</strong> is a powerful, lightweight, cross-platform programming language used to add dynamic behavior, interactivity, logical computation, and server communication to web pages.</p>
+        <p><strong>Core Trio of Web Development:</strong></p>
+        <p><strong>1. HTML (HyperText Markup Language):</strong> Defines the skeleton, structure, and semantic elements of a web page.</p>
+        <p><strong>2. CSS (Cascading Style Sheets):</strong> Controls visual aesthetics, responsive styling, colors, and layout structure.</p>
+        <p><strong>3. JavaScript:</strong> Implements interactive features, manages state, calculates logic, and manipulates the document dynamically.</p>
+      </section>
+
+      <section class="section-card" id="js-1">
+        <div class="card-header">
+          <h2>1. Introduction to JavaScript</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">&lt;script&gt; tag</span>
+            <span class="badge-type">Language Basics</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>JavaScript is an interpreted, client-side scripting language originally developed by Brendan Eich in 1995. It runs directly inside all modern web browsers without requiring additional compiler installations.</p>
+          <p>You can embed JavaScript code inside HTML documents using the <code>&lt;script&gt;</code> tag or by linking external <code>.js</code> files using the <code>src</code> attribute.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function showWelcome() {
+  document.getElementById("welcomeOutput").textContent = 
+    "Welcome to the world of JavaScript Programming! 🚀";
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="showWelcome()">Click to Run Code</button>
+          <div id="welcomeOutput" class="demo-result-box">Click the button above to execute JavaScript...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-2">
+        <div class="card-header">
+          <h2>2. JavaScript Output Methods</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">innerHTML, textContent, console.log</span>
+            <span class="badge-type">I/O Streams</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>JavaScript provides multiple techniques to produce outputs and display values to users and developers:</p>
+          <p><strong>1. <code>innerHTML</code>:</strong> Renders HTML elements and formatted text into a container element.</p>
+          <p><strong>2. <code>textContent</code>:</strong> Sets plain text content safely without interpreting HTML markup.</p>
+          <p><strong>3. <code>console.log()</code>:</strong> Prints diagnostics and variables into the browser developer console (F12).</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function showOutput() {
+  console.log("Hello from JavaScript Developer Console!");
+  document.getElementById("outputExample").innerHTML = 
+    "<b>Success:</b> Output rendered using <code>innerHTML</code> property!";
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="showOutput()">Show Rendered Output</button>
+          <div id="outputExample" class="demo-result-box">Output will be displayed here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-3">
+        <div class="card-header">
+          <h2>3. JavaScript Variables (let, const, var)</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">let, const, var</span>
+            <span class="badge-type">Memory Storage</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>Variables serve as named memory containers for storing data values. Modern JavaScript uses three declaration keywords:</p>
+          <p><strong>1. <code>let</code>:</strong> Block-scoped variable whose value can be reassigned later.</p>
+          <p><strong>2. <code>const</code>:</strong> Block-scoped constant variable whose reference cannot be reassigned.</p>
+          <p><strong>3. <code>var</code>:</strong> Legacy function-scoped variable keyword (avoid in modern ES6+ code).</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function variableExample() {
+  let studentName = "Rahul Sharma";
+  const studentAge = 15;
+  studentName = "Rahul S. (Updated)"; // let can be reassigned
+
+  document.getElementById("variableOutput").innerHTML = 
+    "<strong>Student Name (let):</strong> " + studentName + 
+    "<br><strong>Age (const):</strong> " + studentAge;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="variableExample()">Run Variables Code</button>
+          <div id="variableOutput" class="demo-result-box">Variable results appear here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-4">
+        <div class="card-header">
+          <h2>4. JavaScript Data Types</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">typeof operator</span>
+            <span class="badge-type">Type System</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>JavaScript is a dynamically typed language with 8 core data types: <code>String</code>, <code>Number</code>, <code>Boolean</code>, <code>Undefined</code>, <code>Null</code>, <code>BigInt</code>, <code>Symbol</code>, and <code>Object</code>.</p>
+          <p>The <code>typeof</code> unary operator inspects and returns the primitive data type of any variable.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function dataTypeExample() {
+  let name = "Amit";            // String
+  let age = 16;                 // Number
+  let isEnrolled = true;        // Boolean
+  let marks;                    // Undefined
+  let address = null;           // Null (returns object)
+
+  document.getElementById("dataTypeOutput").innerHTML = 
+    "name ('" + name + "'): " + typeof name + "<br>" +
+    "age (" + age + "): " + typeof age + "<br>" +
+    "isEnrolled (" + isEnrolled + "): " + typeof isEnrolled + "<br>" +
+    "marks: " + typeof marks;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="dataTypeExample()">Inspect Data Types</button>
+          <div id="dataTypeOutput" class="demo-result-box">Data type analysis will appear here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-5">
+        <div class="card-header">
+          <h2>5. JavaScript Operators</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">+, -, *, /, ===, &amp;&amp;, ||</span>
+            <span class="badge-type">Computation</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>Operators perform calculations and logical decisions on operands:</p>
+          <p><strong>Arithmetic:</strong> <code>+</code> (Add), <code>-</code> (Subtract), <code>*</code> (Multiply), <code>/</code> (Divide), <code>%</code> (Modulus), <code>**</code> (Exponentiation).</p>
+          <p><strong>Comparison:</strong> <code>===</code> (Strict equal with type check), <code>!==</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code>.</p>
+          <p><strong>Logical:</strong> <code>&amp;&amp;</code> (AND), <code>||</code> (OR), <code>!</code> (NOT).</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function operatorExample() {
+  let a = 12, b = 5;
+  document.getElementById("operatorOutput").innerHTML = 
+    "Addition (12 + 5): " + (a + b) + "<br>" +
+    "Multiplication (12 * 5): " + (a * b) + "<br>" +
+    "Modulus Remainder (12 % 5): " + (a % b) + "<br>" +
+    "Strict Equality (12 === '12'): " + (a === "12");
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="operatorExample()">Evaluate Operators</button>
+          <div id="operatorOutput" class="demo-result-box">Calculated answers will display here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-6">
+        <div class="card-header">
+          <h2>6. Conditional Statements (if...else if...else)</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">if, else if, else</span>
+            <span class="badge-type">Control Flow</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>Conditional statements branch program execution based on whether a boolean expression evaluates to true or false.</p>
+          <p>Use <code>if</code> for the first test, <code>else if</code> for subsequent conditions, and <code>else</code> as the fallback clause when all prior tests evaluate to false.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function checkAge() {
+  let age = Number(document.getElementById("ageInput").value);
+  let result = "";
+
+  if (age >= 18) {
+    result = "✅ You are an eligible adult voter (Age: " + age + ").";
+  } else if (age > 0) {
+    result = "👶 You are a minor under 18 (Age: " + age + ").";
+  } else {
+    result = "⚠️ Please enter a valid positive age.";
+  }
+  document.getElementById("ageOutput").textContent = result;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <input type="number" id="ageInput" placeholder="Enter Age (e.g. 19)" value="19" style="width: 180px;">
+          <button onclick="checkAge()">Verify Age</button>
+          <div id="ageOutput" class="demo-result-box">Input an age and click verify...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-7">
+        <div class="card-header">
+          <h2>7. Switch Statement</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">switch, case, break, default</span>
+            <span class="badge-type">Control Flow</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>The <code>switch</code> statement evaluates an expression against multiple matching <code>case</code> clauses.</p>
+          <p>The <code>break</code> keyword terminates execution within the switch block, preventing unwanted fall-through into next cases. The <code>default</code> clause runs if no match is found.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function checkDay() {
+  let dayVal = document.getElementById("dayInput").value;
+  let text = "";
+
+  switch (dayVal) {
+    case "1": text = "📅 Monday: Fresh Start of the week!"; break;
+    case "2": text = "📅 Tuesday: Coding and learning!"; break;
+    case "3": text = "📅 Wednesday: Midweek productivity!"; break;
+    case "4": text = "📅 Thursday: Project development!"; break;
+    case "5": text = "🎉 Friday: Weekend is loading!"; break;
+    default:  text = "🌟 Weekend / Holiday!";
+  }
+  document.getElementById("dayOutput").textContent = text;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <select id="dayInput">
+            <option value="1">Monday (1)</option>
+            <option value="2">Tuesday (2)</option>
+            <option value="3">Wednesday (3)</option>
+            <option value="4">Thursday (4)</option>
+            <option value="5">Friday (5)</option>
+          </select>
+          <button onclick="checkDay()">Check Day</button>
+          <div id="dayOutput" class="demo-result-box">Select a day from dropdown...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-8">
+        <div class="card-header">
+          <h2>8. For Loop</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">for (init; cond; step)</span>
+            <span class="badge-type">Iteration</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>A <code>for</code> loop repeats a block of code a predetermined number of times.</p>
+          <p>It consists of three expressions separated by semicolons: <strong>initialization</strong> (e.g. <code>let i = 1</code>), <strong>test condition</strong> (e.g. <code>i &lt;= 5</code>), and <strong>increment/decrement step</strong> (e.g. <code>i++</code>).</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function forLoopExample() {
+  let result = "";
+  for (let i = 1; i <= 5; i++) {
+    result += "Iteration " + i + ": Square = " + (i * i) + "<br>";
+  }
+  document.getElementById("forOutput").innerHTML = result;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="forLoopExample()">Execute For Loop</button>
+          <div id="forOutput" class="demo-result-box">Loop results will be generated here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-9">
+        <div class="card-header">
+          <h2>9. While Loop</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">while (condition)</span>
+            <span class="badge-type">Iteration</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>The <code>while</code> loop repeatedly executes instructions as long as its specified condition remains <code>true</code>.</p>
+          <p>Because the condition is tested <em>before</em> entering the loop body, if the condition is initially false, the loop will never run.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function whileLoopExample() {
+  let count = 10;
+  let text = "";
+  while (count <= 50) {
+    text += count + " ";
+    count += 10;
+  }
+  document.getElementById("whileOutput").textContent = "Multiples of 10: " + text;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="whileLoopExample()">Run While Loop</button>
+          <div id="whileOutput" class="demo-result-box">While loop output will display here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-10">
+        <div class="card-header">
+          <h2>10. Do...While Loop</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">do { ... } while ()</span>
+            <span class="badge-type">Iteration</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>The <code>do...while</code> loop is an exit-controlled loop that executes its code block <strong>at least once</strong> unconditionally before evaluating the condition at the end.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function doWhileExample() {
+  let i = 1;
+  let output = "";
+  do {
+    output += "Step " + i + " executed | ";
+    i++;
+  } while (i <= 3);
+  document.getElementById("doWhileOutput").textContent = output;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="doWhileExample()">Run Do-While Loop</button>
+          <div id="doWhileOutput" class="demo-result-box">Do while loop output...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-11">
+        <div class="card-header">
+          <h2>11. Functions (Declaration & Invocation)</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">function greet()</span>
+            <span class="badge-type">Modular Code</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>A function is a named, reusable block of JavaScript code designed to perform a specific task. Functions avoid duplicate code (DRY principle).</p>
+          <p>Functions are defined using the <code>function</code> keyword and executed (invoked) by adding parentheses <code>greetUser()</code>.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function greetUser() {
+  const time = new Date().toLocaleTimeString();
+  document.getElementById("functionOutput").textContent = 
+    "Hello! Function executed successfully at " + time;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="greetUser()">Invoke greetUser()</button>
+          <div id="functionOutput" class="demo-result-box">Click the button to invoke function...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-12">
+        <div class="card-header">
+          <h2>12. Function Parameters & Arguments</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">function(name, role)</span>
+            <span class="badge-type">Modular Code</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p><strong>Parameters</strong> are placeholder variable names listed inside the function definition parentheses.</p>
+          <p><strong>Arguments</strong> are the real concrete values passed into the function when calling it.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function makeGreeting(userName) {
+  return "Welcome, " + userName + "! Happy coding in JavaScript.";
+}
+
+function parameterExample() {
+  let val = document.getElementById("nameInput").value.trim() || "Student";
+  document.getElementById("parameterOutput").textContent = makeGreeting(val);
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <input type="text" id="nameInput" placeholder="Enter student name" value="Pratap" style="width: 180px;">
+          <button onclick="parameterExample()">Run Parameterized Function</button>
+          <div id="parameterOutput" class="demo-result-box">Personalized greeting will appear here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-13">
+        <div class="card-header">
+          <h2>13. Function Return Values</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">return expression;</span>
+            <span class="badge-type">Modular Code</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>The <code>return</code> keyword stops function execution immediately and hands back a computed value to the caller code location.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function multiply(x, y) {
+  return x * y;
+}
+
+function returnExample() {
+  let n1 = Number(document.getElementById("num1").value);
+  let n2 = Number(document.getElementById("num2").value);
+  let product = multiply(n1, n2);
+  document.getElementById("returnOutput").textContent = 
+    "Calculated Product (" + n1 + " × " + n2 + ") = " + product;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <input type="number" id="num1" value="7" style="width: 100px;">
+          <input type="number" id="num2" value="8" style="width: 100px;">
+          <button onclick="returnExample()">Multiply Numbers</button>
+          <div id="returnOutput" class="demo-result-box">Product result will display here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-14">
+        <div class="card-header">
+          <h2>14. ES6 Arrow Functions</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">const fn = (x) =&gt; x * x</span>
+            <span class="badge-type">Modern ES6</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>Arrow functions introduced in ES6 provide a concise, clean syntax for writing function expressions using the fat arrow (<code>=&gt;</code>) operator.</p>
+          <p>Unlike regular functions, arrow functions do not bind their own <code>this</code> context, making them ideal for callbacks.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">// Concise ES6 Arrow Function
+const calculateCube = n => n * n * n;
+
+function arrowFunctionExample() {
+  let num = 4;
+  let cube = calculateCube(num);
+  document.getElementById("arrowOutput").textContent = 
+    `Cube of ${num} evaluated via Arrow Function = ${cube}`;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="arrowFunctionExample()">Run Arrow Function</button>
+          <div id="arrowOutput" class="demo-result-box">Arrow function evaluation output...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-15">
+        <div class="card-header">
+          <h2>15. JavaScript Arrays</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">[elem1, elem2, elem3]</span>
+            <span class="badge-type">Data Structures</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>An <strong>Array</strong> is an ordered, zero-indexed collection capable of storing multiple values under a single variable name.</p>
+          <p>Array elements are accessed using bracket notation <code>arr[0]</code> and their count is measured with <code>arr.length</code>.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function arrayExample() {
+  let subjects = ["HTML5", "CSS3", "JavaScript", "ReactJS", "NodeJS"];
+  document.getElementById("arrayOutput").innerHTML = 
+    "<strong>Full Array:</strong> [" + subjects.join(", ") + "]<br>" +
+    "<strong>Total Items:</strong> " + subjects.length + "<br>" +
+    "<strong>First Element [0]:</strong> " + subjects[0];
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="arrayExample()">Inspect Array</button>
+          <div id="arrayOutput" class="demo-result-box">Array elements output...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-16">
+        <div class="card-header">
+          <h2>16. Array Methods (push, pop, shift, unshift)</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">push(), pop(), shift(), unshift()</span>
+            <span class="badge-type">Array Manipulation</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>Common mutating methods to add or remove array elements:</p>
+          <p><strong><code>push()</code>:</strong> Appends new element to the end of the array.</p>
+          <p><strong><code>pop()</code>:</strong> Removes and returns the last element.</p>
+          <p><strong><code>shift()</code>:</strong> Removes the first element from the beginning.</p>
+          <p><strong><code>unshift()</code>:</strong> Adds a new element to the start of the array.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function arrayMethodsExample() {
+  let fruits = ["Apple", "Banana"];
+  fruits.push("Mango");     // ["Apple", "Banana", "Mango"]
+  fruits.unshift("Orange"); // ["Orange", "Apple", "Banana", "Mango"]
+  fruits.pop();             // removes Mango
+
+  document.getElementById("arrayMethodsOutput").textContent = 
+    "Modified Array: " + JSON.stringify(fruits);
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="arrayMethodsExample()">Run Array Operations</button>
+          <div id="arrayMethodsOutput" class="demo-result-box">Array mutations will display here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-17">
+        <div class="card-header">
+          <h2>17. Looping through Arrays (for...of)</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">for (const item of array)</span>
+            <span class="badge-type">Iteration</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>The <code>for...of</code> loop iterates seamlessly over iterable data structures such as Arrays and Strings, assigning each consecutive value to a variable without manual index tracking.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function arrayLoopExample() {
+  const students = ["Rahul", "Aman", "Priya", "Neha", "Rohit"];
+  let html = "<ul>";
+  for (const student of students) {
+    html += "<li>Student: " + student + "</li>";
+  }
+  html += "</ul>";
+  document.getElementById("arrayLoopOutput").innerHTML = html;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="arrayLoopExample()">Iterate Array Elements</button>
+          <div id="arrayLoopOutput" class="demo-result-box">Student list rendered via for...of...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-18">
+        <div class="card-header">
+          <h2>18. Array.prototype.map()</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">arr.map(x =&gt; x * 2)</span>
+            <span class="badge-type">Functional JS</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>The <code>map()</code> method creates a brand new array populated with the results of calling a provided callback function on every single element in the calling array without modifying the original array.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function mapExample() {
+  const numbers = [2, 4, 6, 8, 10];
+  const doubled = numbers.map(num => num * 2);
+
+  document.getElementById("mapOutput").innerHTML = 
+    "Original Numbers: [" + numbers.join(", ") + "]<br>" +
+    "Doubled via map(): [" + doubled.join(", ") + "]";
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="mapExample()">Run map() Transformation</button>
+          <div id="mapOutput" class="demo-result-box">Mapped array output...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-19">
+        <div class="card-header">
+          <h2>19. Array.prototype.filter()</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">arr.filter(x =&gt; condition)</span>
+            <span class="badge-type">Functional JS</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>The <code>filter()</code> method creates a shallow copy of a portion of a given array, filtered down to just the elements that pass the test implemented by the callback predicate function.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function filterExample() {
+  const marks = [45, 82, 33, 91, 58, 76, 29];
+  const passingMarks = marks.filter(score => score >= 50);
+
+  document.getElementById("filterOutput").innerHTML = 
+    "All Scores: [" + marks.join(", ") + "]<br>" +
+    "Passing Scores (≥ 50): <strong>[" + passingMarks.join(", ") + "]</strong>";
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="filterExample()">Run filter() Test</button>
+          <div id="filterOutput" class="demo-result-box">Filtered elements will display here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-20">
+        <div class="card-header">
+          <h2>20. Array.prototype.reduce()</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">arr.reduce((acc, cur) =&gt; ...)</span>
+            <span class="badge-type">Functional JS</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>The <code>reduce()</code> method executes a user-supplied reducer callback function on each element of the array, returning a single accumulated result value (e.g. calculating total sum or product).</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function reduceExample() {
+  const cartPrices = [120, 250, 499, 80];
+  const total = cartPrices.reduce((accumulator, currentPrice) => {
+    return accumulator + currentPrice;
+  }, 0);
+
+  document.getElementById("reduceOutput").textContent = 
+    "Items: [" + cartPrices.join(", ") + "] ➔ Total Cart Price = ₹" + total;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="reduceExample()">Calculate Total with reduce()</button>
+          <div id="reduceOutput" class="demo-result-box">Reduced accumulation output...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-21">
+        <div class="card-header">
+          <h2>21. JavaScript Objects</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">{ key: value }</span>
+            <span class="badge-type">Key-Value Pairs</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>Objects are unordered collections of related data stored in <code>key: value</code> pairs. Keys are properties that point to primitive values, arrays, or other nested objects.</p>
+          <p>Properties can be accessed using dot notation (<code>obj.name</code>) or bracket notation (<code>obj["name"]</code>).</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function objectExample() {
+  const student = {
+    name: "Rahul Sharma",
+    rollNumber: 101,
+    grade: "8th Standard",
+    isEnrolled: true
+  };
+
+  document.getElementById("objectOutput").innerHTML = 
+    "Name: " + student.name + "<br>" +
+    "Roll No: " + student.rollNumber + "<br>" +
+    "Grade: " + student.grade;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="objectExample()">Inspect Object Data</button>
+          <div id="objectOutput" class="demo-result-box">Object properties will display here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-22">
+        <div class="card-header">
+          <h2>22. Object Methods & `this` Keyword</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">this.property</span>
+            <span class="badge-type">OOP Basics</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>A method is a function stored as an object property. Inside an object method, the special keyword <code>this</code> references the owner object executing the current function.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">const userAccount = {
+  firstName: "Aman",
+  lastName: "Verma",
+  getFullName: function() {
+    return this.firstName + " " + this.lastName;
+  }
+};
+
+function objectMethodExample() {
+  document.getElementById("objectMethodOutput").textContent = 
+    "Full Name from Method: " + userAccount.getFullName();
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="objectMethodExample()">Call Object Method</button>
+          <div id="objectMethodOutput" class="demo-result-box">Method result...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-23">
+        <div class="card-header">
+          <h2>23. JavaScript String Methods</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">toUpperCase(), slice(), replace()</span>
+            <span class="badge-type">String Manipulation</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>Strings in JavaScript are immutable sequences of characters with helpful built-in manipulation methods such as <code>toUpperCase()</code>, <code>toLowerCase()</code>, <code>includes()</code>, <code>slice()</code>, and <code>trim()</code>.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function stringExample() {
+  let str = "Learn JavaScript Today";
+  document.getElementById("stringOutput").innerHTML = 
+    "Original String: '" + str + "'<br>" +
+    "Length: " + str.length + "<br>" +
+    "Uppercase: " + str.toUpperCase() + "<br>" +
+    "Sliced (0, 5): " + str.slice(0, 5) + "<br>" +
+    "Replaced: " + str.replace("Today", "Everyday!");
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="stringExample()">Execute String Methods</button>
+          <div id="stringOutput" class="demo-result-box">String outputs will appear here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-24">
+        <div class="card-header">
+          <h2>24. Number Methods (toFixed, parseInt)</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">toFixed(), parseInt(), parseFloat()</span>
+            <span class="badge-type">Math Utilities</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p><code>toFixed(n)</code> formats a number to a specified number of decimal digits as a string.</p>
+          <p><code>parseInt()</code> parses a string argument and returns an integer, while <code>Number()</code> converts values to numeric types.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function numberExample() {
+  let pi = 3.14159265;
+  let strNum = "42px";
+  document.getElementById("numberOutput").innerHTML = 
+    "pi.toFixed(2): " + pi.toFixed(2) + "<br>" +
+    "parseInt('42px'): " + parseInt(strNum) + "<br>" +
+    "isNaN('Hello'): " + isNaN("Hello");
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="numberExample()">Run Number Methods</button>
+          <div id="numberOutput" class="demo-result-box">Number outputs will display here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-25">
+        <div class="card-header">
+          <h2>25. Document Object Model (DOM)</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">document.getElementById()</span>
+            <span class="badge-type">DOM API</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>The <strong>DOM (Document Object Model)</strong> is a hierarchical tree representation of HTML documents created by the browser. JavaScript accesses and modifies DOM nodes in real time to update text, styles, and attributes.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function changeDOM() {
+  const el = document.getElementById("domDemoText");
+  el.textContent = "⚡ Text changed dynamically via JavaScript DOM API!";
+  el.style.color = "#2563eb";
+  el.style.fontWeight = "bold";
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <p id="domDemoText" style="margin-bottom: 10px;">Original static HTML paragraph text.</p>
+          <button onclick="changeDOM()">Mutate DOM Element</button>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-26">
+        <div class="card-header">
+          <h2>26. document.getElementById()</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">getElementById("id")</span>
+            <span class="badge-type">DOM Selection</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p><code>document.getElementById()</code> is the fastest method to select a unique element by its specific HTML <code>id</code> attribute.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function changeTargetText() {
+  const target = document.getElementById("specificTarget");
+  target.textContent = "ID Element located and modified successfully! 🎉";
+  target.style.background = "#dcfce7";
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <div id="specificTarget" class="demo-result-box">I am an element with id="specificTarget"</div>
+          <button onclick="changeTargetText()" style="margin-top: 8px;">Select & Modify</button>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-27">
+        <div class="card-header">
+          <h2>27. querySelector & querySelectorAll</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">querySelector(".class / #id")</span>
+            <span class="badge-type">DOM Selection</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p><code>querySelector()</code> returns the first element that matches a specified CSS selector string (classes like <code>.item</code>, IDs like <code>#nav</code>, or complex tags like <code>div > p</code>).</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function queryExample() {
+  const item = document.querySelector(".query-highlight-box");
+  item.style.backgroundColor = "#fed7aa";
+  item.style.border = "2px solid #ea580c";
+  item.textContent = "Styled via querySelector('.query-highlight-box')";
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <div class="query-highlight-box demo-result-box">Target element with class="query-highlight-box"</div>
+          <button onclick="queryExample()" style="margin-top: 8px;">Run querySelector()</button>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-28">
+        <div class="card-header">
+          <h2>28. Creating & Appending DOM Elements</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">createElement(), appendChild()</span>
+            <span class="badge-type">Dynamic DOM</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p><code>document.createElement('tagName')</code> creates a brand new element in memory, and <code>parent.appendChild(newChild)</code> inserts it into the visible webpage DOM.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function createElementExample() {
+  const container = document.getElementById("newElementArea");
+  const newBadge = document.createElement("span");
+  newBadge.textContent = "🏷️ New Item (" + (container.children.length + 1) + ") ";
+  newBadge.style.cssText = "display:inline-block; background:#e0e7ff; color:#3730a3; padding:4px 10px; border-radius:4px; margin:4px; font-weight:600;";
+  container.appendChild(newBadge);
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="createElementExample()">+ Create & Append Element</button>
+          <div id="newElementArea" style="margin-top: 8px; min-height: 30px;"></div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-29">
+        <div class="card-header">
+          <h2>29. JavaScript Event Handlers</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">onclick, onmouseover</span>
+            <span class="badge-type">User Interaction</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>Events represent actions or occurrences that happen in the system (such as user button clicks, mouse hovers, keystrokes, or page loading).</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function handleButtonClick() {
+  document.getElementById("eventOutput").textContent = 
+    "Event Triggered: onclick handler responded to user click!";
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="handleButtonClick()">Click to Trigger Event</button>
+          <div id="eventOutput" class="demo-result-box">Waiting for user event...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-30">
+        <div class="card-header">
+          <h2>30. Modern Event Listeners (addEventListener)</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">addEventListener('click', fn)</span>
+            <span class="badge-type">Standard Events</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p><code>addEventListener()</code> attaches event handler functions to elements cleanly without overwriting existing event handlers or polluting HTML markup with inline event attributes.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">const btn = document.getElementById("listenerDemoBtn");
+btn.addEventListener("click", function() {
+  document.getElementById("listenerOutput").textContent = 
+    "✅ addEventListener('click') fired successfully!";
+});</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button id="listenerDemoBtn">Test addEventListener()</button>
+          <div id="listenerOutput" class="demo-result-box">Listener is active and waiting...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-31">
+        <div class="card-header">
+          <h2>31. Interactive Form Validation</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">form.onsubmit, trim()</span>
+            <span class="badge-type">Form Security</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>Client-side form validation prevents invalid or empty form data submissions before data is transmitted over the network to a backend server.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function validateUserForm() {
+  let name = document.getElementById("userNameInput").value.trim();
+  let msg = document.getElementById("validationOutput");
+
+  if (name === "") {
+    msg.innerHTML = "&lt;span class='msg-error'&gt;❌ Error: Name field cannot be empty!&lt;/span&gt;";
+  } else {
+    msg.innerHTML = "&lt;span class='msg-success'&gt;✅ Success: Welcome, " + name + "! Form is valid.&lt;/span&gt;";
+  }
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <input type="text" id="userNameInput" placeholder="Enter full name" style="width: 220px;">
+          <button onclick="validateUserForm()">Submit & Validate</button>
+          <div id="validationOutput" class="demo-result-box">Form status message will appear here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-32">
+        <div class="card-header">
+          <h2>32. The Math Object</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">Math.sqrt, Math.random, Math.round</span>
+            <span class="badge-type">Built-in Object</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>The <code>Math</code> namespace object provides mathematical constants and methods such as <code>Math.sqrt()</code>, <code>Math.pow()</code>, <code>Math.random()</code>, <code>Math.floor()</code>, and <code>Math.round()</code>.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function mathExample() {
+  let rand = Math.floor(Math.random() * 100) + 1;
+  document.getElementById("mathOutput").innerHTML = 
+    "Square root of 64: " + Math.sqrt(64) + "<br>" +
+    "2 to the power 4: " + Math.pow(2, 4) + "<br>" +
+    "Random Integer (1-100): <strong>" + rand + "</strong>";
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="mathExample()">Generate Math Calculations</button>
+          <div id="mathOutput" class="demo-result-box">Math outputs will display here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-33">
+        <div class="card-header">
+          <h2>33. The Date Object</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">new Date()</span>
+            <span class="badge-type">Time Management</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>The <code>Date</code> object represents a single moment in time. It provides getter methods like <code>getFullYear()</code>, <code>getMonth()</code>, <code>getDate()</code>, and <code>toLocaleDateString()</code>.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function showLiveDate() {
+  let d = new Date();
+  document.getElementById("dateOutput").innerHTML = 
+    "<strong>Full String:</strong> " + d.toString() + "<br>" +
+    "<strong>Formatted Date:</strong> " + d.toLocaleDateString() + "<br>" +
+    "<strong>Formatted Time:</strong> " + d.toLocaleTimeString();
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="showLiveDate()">Fetch Current Date & Time</button>
+          <div id="dateOutput" class="demo-result-box">Click to get current timestamp...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-34">
+        <div class="card-header">
+          <h2>34. Timers: setTimeout()</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">setTimeout(fn, delayMs)</span>
+            <span class="badge-type">Async Timers</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p><code>setTimeout()</code> schedules a single execution of a callback function after a specified delay in milliseconds (1000ms = 1s).</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function timeoutExample() {
+  const box = document.getElementById("timeoutOutput");
+  box.textContent = "⏳ Timer started... waiting 2 seconds...";
+
+  setTimeout(() => {
+    box.textContent = "🎉 2 seconds elapsed! Timer callback executed.";
+  }, 2000);
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="timeoutExample()">Start 2-Second Timer</button>
+          <div id="timeoutOutput" class="demo-result-box">Click button to test setTimeout()...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-35">
+        <div class="card-header">
+          <h2>35. Timers: setInterval() & clearInterval()</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">setInterval(), clearInterval()</span>
+            <span class="badge-type">Async Timers</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p><code>setInterval()</code> repeatedly invokes a callback function at a fixed time delay interval. Pass the returned timer ID to <code>clearInterval()</code> to halt the timer.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">let count = 0;
+let timerId = null;
+
+function startCounter() {
+  if (timerId !== null) return;
+  timerId = setInterval(() => {
+    count++;
+    document.getElementById("counterOutput").textContent = "Seconds: " + count;
+  }, 1000);
+}
+
+function stopCounter() {
+  clearInterval(timerId);
+  timerId = null;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="startCounter()">▶ Start Counter</button>
+          <button onclick="stopCounter()" style="background:#dc2626;">⏹ Stop Counter</button>
+          <div id="counterOutput" class="demo-result-box">Seconds: 0</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-36">
+        <div class="card-header">
+          <h2>36. JSON (JavaScript Object Notation)</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">JSON.stringify(), JSON.parse()</span>
+            <span class="badge-type">Data Exchange</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p><strong>JSON</strong> is a universal text format for serializing and exchanging structured data.</p>
+          <p><code>JSON.stringify()</code> converts a JavaScript object into a JSON string; <code>JSON.parse()</code> converts a JSON string back into a JavaScript object.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function jsonExample() {
+  const student = { name: "Priya", age: 14, subjects: ["Math", "Science"] };
+  const jsonStr = JSON.stringify(student);
+  const parsedObj = JSON.parse(jsonStr);
+
+  document.getElementById("jsonOutput").innerHTML = 
+    "<strong>JSON String:</strong> " + jsonStr + "<br>" +
+    "<strong>Parsed Name:</strong> " + parsedObj.name;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="jsonExample()">Run JSON Serialization</button>
+          <div id="jsonOutput" class="demo-result-box">JSON data will appear here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-37">
+        <div class="card-header">
+          <h2>37. ES6 Destructuring Assignment</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">const { title, year } = book</span>
+            <span class="badge-type">Modern ES6</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>Destructuring syntax enables unpacking values from arrays or properties from objects into distinct variables cleanly and concisely.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function destructuringExample() {
+  const user = { username: "rajesh99", role: "Instructor", country: "India" };
+  const { username, role, country } = user; // Object Destructuring
+
+  const colors = ["Red", "Green", "Blue"];
+  const [firstColor, secondColor] = colors; // Array Destructuring
+
+  document.getElementById("destructuringOutput").innerHTML = 
+    `User: ${username} | Role: ${role} | Country: ${country}<br>` +
+    `First Color: ${firstColor}, Second Color: ${secondColor}`;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="destructuringExample()">Test Destructuring</button>
+          <div id="destructuringOutput" class="demo-result-box">Unpacked variables will display here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-38">
+        <div class="card-header">
+          <h2>38. Spread Operator (...)</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">[...arr1, ...arr2]</span>
+            <span class="badge-type">Modern ES6</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>The spread operator (<code>...</code>) expands an iterable (like an array or object) into individual elements. It is commonly used for merging arrays and copying objects.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function spreadExample() {
+  const frontEnd = ["HTML", "CSS", "JS"];
+  const backEnd = ["NodeJS", "Express", "MongoDB"];
+  const fullStack = [...frontEnd, ...backEnd, "Git"];
+
+  document.getElementById("spreadOutput").textContent = 
+    "Merged Stack: [" + fullStack.join(", ") + "]";
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="spreadExample()">Merge Arrays via Spread</button>
+          <div id="spreadOutput" class="demo-result-box">Merged array output...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-39">
+        <div class="card-header">
+          <h2>39. Rest Parameters (...)</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">function sum(...numbers)</span>
+            <span class="badge-type">Modern ES6</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>The rest parameter syntax allows a function to accept an indefinite number of arguments bundled into a standard array.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function sumAll(...numbers) {
+  return numbers.reduce((acc, n) => acc + n, 0);
+}
+
+function restExample() {
+  let ans1 = sumAll(10, 20, 30);
+  let ans2 = sumAll(5, 10, 15, 20, 25, 30);
+
+  document.getElementById("restOutput").innerHTML = 
+    "sumAll(10, 20, 30) = " + ans1 + "<br>" +
+    "sumAll(5, 10, 15, 20, 25, 30) = " + ans2;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="restExample()">Calculate with Rest Params</button>
+          <div id="restOutput" class="demo-result-box">Rest parameter output...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-40">
+        <div class="card-header">
+          <h2>40. Template Literals & String Interpolation</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">`Hello ${name}!`</span>
+            <span class="badge-type">Modern ES6</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>Template literals use backticks (<code>` `</code>) instead of regular quotes, allowing multi-line strings and embedded expressions using <code>${expression}</code>.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function templateExample() {
+  const item = "Laptop";
+  const price = 45000;
+  const tax = 0.18;
+  const total = price * (1 + tax);
+
+  const message = `Product: ${item} | Net Total: ₹${total.toLocaleString('en-IN')}`;
+  document.getElementById("templateOutput").textContent = message;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="templateExample()">Evaluate Template Literal</button>
+          <div id="templateOutput" class="demo-result-box">Interpolated string will display here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-41">
+        <div class="card-header">
+          <h2>41. Error Handling (try...catch...finally)</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">try { ... } catch (err)</span>
+            <span class="badge-type">Error Handling</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>The <code>try...catch</code> statement handles runtime errors gracefully, preventing unhandled exceptions from crashing your entire application.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function errorExample() {
+  try {
+    // Calling an intentionally undefined function to test catch block
+    nonExistentFunctionCall();
+  } catch (error) {
+    document.getElementById("errorOutput").innerHTML = 
+      "&lt;span class='msg-error'&gt;Caught Error: " + error.name + " - " + error.message + "&lt;/span&gt;";
+  }
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="errorExample()" style="background:#dc2626;">Simulate & Catch Error</button>
+          <div id="errorOutput" class="demo-result-box">Click to trigger error handling...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-42">
+        <div class="card-header">
+          <h2>42. ES6 Classes</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">class Person {}</span>
+            <span class="badge-type">OOP Architecture</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>Introduced in ES6, <code>class</code> provides a clean, syntax sugar over JavaScript's existing prototype-based inheritance to instantiate structured objects.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">class Student {
+  constructor(name, subject) {
+    this.name = name;
+    this.subject = subject;
+  }
+  describe() {
+    return `${this.name} is studying ${this.subject}.`;
+  }
+}
+
+function classExample() {
+  const s1 = new Student("Anjali", "Computer Science");
+  document.getElementById("classOutput").textContent = s1.describe();
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="classExample()">Instantiate ES6 Class</button>
+          <div id="classOutput" class="demo-result-box">Class instance output...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-43">
+        <div class="card-header">
+          <h2>43. Class Constructors & Properties</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">constructor(a, b)</span>
+            <span class="badge-type">OOP Architecture</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>The <code>constructor</code> method is a special function invoked automatically when creating new objects with the <code>new</code> keyword to initialize instance properties.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">class Vehicle {
+  constructor(brand, model, year) {
+    this.brand = brand;
+    this.model = model;
+    this.year = year;
+  }
+}
+
+function constructorExample() {
+  const car = new Vehicle("Tata", "Nexon EV", 2024);
+  document.getElementById("constructorOutput").innerHTML = 
+    `Brand: ${car.brand} | Model: ${car.model} | Year: ${car.year}`;
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="constructorExample()">Create Class with Constructor</button>
+          <div id="constructorOutput" class="demo-result-box">Constructor instance output...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-44">
+        <div class="card-header">
+          <h2>44. Class Inheritance (extends & super)</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">class Sub extends Parent</span>
+            <span class="badge-type">OOP Architecture</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>Class inheritance allows a child class to inherit methods and properties from a parent class using the <code>extends</code> keyword. <code>super()</code> invokes the parent constructor.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">class Animal {
+  constructor(name) { this.name = name; }
+  makeSound() { return `${this.name} makes a sound.`; }
+}
+
+class Dog extends Animal {
+  bark() { return `${this.name} barks: Woof Woof! 🐶`; }
+}
+
+function inheritanceExample() {
+  const myDog = new Dog("Buddy");
+  document.getElementById("inheritanceOutput").innerHTML = 
+    myDog.makeSound() + "&lt;br&gt;" + myDog.bark();
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="inheritanceExample()">Run Inherited Class</button>
+          <div id="inheritanceOutput" class="demo-result-box">Inheritance output...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-45">
+        <div class="card-header">
+          <h2>45. JavaScript Promises</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">new Promise((resolve, reject))</span>
+            <span class="badge-type">Asynchronous JS</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>A <strong>Promise</strong> is an object representing the eventual completion or failure of an asynchronous operation (States: <em>Pending</em>, <em>Fulfilled</em>, <em>Rejected</em>).</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function promiseExample() {
+  const box = document.getElementById("promiseOutput");
+  box.textContent = "Promise pending...";
+
+  const mockPromise = new Promise((resolve) => {
+    setTimeout(() => resolve("✅ Promise fulfilled successfully after 1.5s!"), 1500);
+  });
+
+  mockPromise.then(result => {
+    box.textContent = result;
+  });
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="promiseExample()">Execute Promise</button>
+          <div id="promiseOutput" class="demo-result-box">Promise status...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-46">
+        <div class="card-header">
+          <h2>46. Async / Await Syntax</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">async function() { await ... }</span>
+            <span class="badge-type">Asynchronous JS</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p><code>async/await</code> provides syntactic sugar on top of Promises, allowing developers to write asynchronous code that reads sequentially like synchronous code.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">async function asyncExample() {
+  const box = document.getElementById("asyncOutput");
+  box.textContent = "⏳ Step 1: Processing async task...";
+
+  await new Promise(r => setTimeout(r, 1200));
+
+  box.textContent = "⚡ Step 2: Await finished! Task completed cleanly.";
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="asyncExample()">Run async / await</button>
+          <div id="asyncOutput" class="demo-result-box">Async output will display here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-47">
+        <div class="card-header">
+          <h2>47. Fetch API (HTTP Network Requests)</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">fetch(url).then(res =&gt; res.json())</span>
+            <span class="badge-type">Network API</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p>The <code>fetch()</code> API provides an interface for fetching remote HTTP resources across the network, returning a Promise that resolves with a Response object.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">async function fetchExample() {
+  const box = document.getElementById("fetchOutput");
+  box.textContent = "Fetching user data from API...";
+
+  try {
+    const res = await fetch("https://jsonplaceholder.typicode.com/users/1");
+    const user = await res.json();
+    box.innerHTML = 
+      "&lt;strong&gt;Name:&lt;/strong&gt; " + user.name + "&lt;br&gt;" +
+      "&lt;strong&gt;Email:&lt;/strong&gt; " + user.email + "&lt;br&gt;" +
+      "&lt;strong&gt;City:&lt;/strong&gt; " + user.address.city;
+  } catch (err) {
+    box.textContent = "Error fetching data: " + err.message;
+  }
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="fetchExample()">Fetch Data from REST API</button>
+          <div id="fetchOutput" class="demo-result-box">Live API data will load here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-48">
+        <div class="card-header">
+          <h2>48. LocalStorage (Persistent Browser Storage)</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">localStorage.setItem(), getItem()</span>
+            <span class="badge-type">Web Storage</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p><code>localStorage</code> allows storing key-value pairs persistently in the user's browser with no expiration date, surviving page reloads and browser restarts.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function saveLocalData() {
+  let val = document.getElementById("storageInput").value;
+  localStorage.setItem("myStudyNote", val);
+  document.getElementById("storageOutput").textContent = "💾 Data saved to localStorage!";
+}
+
+function getLocalData() {
+  let saved = localStorage.getItem("myStudyNote");
+  document.getElementById("storageOutput").textContent = 
+    saved ? "📂 Retrieved: " + saved : "No item found in localStorage.";
+}
+
+function clearLocalData() {
+  localStorage.removeItem("myStudyNote");
+  document.getElementById("storageOutput").textContent = "🗑️ Item removed from storage.";
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <input type="text" id="storageInput" placeholder="Type data to save" value="JavaScript Notes by Pratap Sir" style="width: 260px;">
+          <br>
+          <button onclick="saveLocalData()">Save</button>
+          <button onclick="getLocalData()" style="background:#0284c7;">Retrieve</button>
+          <button onclick="clearLocalData()" style="background:#dc2626;">Clear</button>
+          <div id="storageOutput" class="demo-result-box">Storage actions will display here...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-49">
+        <div class="card-header">
+          <h2>49. SessionStorage</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">sessionStorage.setItem()</span>
+            <span class="badge-type">Web Storage</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p><code>sessionStorage</code> maintains data for the duration of the current page session. The stored data is cleared as soon as the browser tab or window is closed.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function sessionExample() {
+  sessionStorage.setItem("activeSessionUser", "Student_Class8");
+  let user = sessionStorage.getItem("activeSessionUser");
+  document.getElementById("sessionOutput").textContent = 
+    "Session Active for: " + user + " (Cleared when tab closes)";
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <button onclick="sessionExample()">Test SessionStorage</button>
+          <div id="sessionOutput" class="demo-result-box">Session data output...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-50">
+        <div class="card-header">
+          <h2>50. Regular Expressions (RegEx)</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">/pattern/.test(string)</span>
+            <span class="badge-type">Pattern Matching</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Theory & Notes:</div>
+          <p><strong>Regular Expressions</strong> are patterns used to match character combinations in strings. The <code>regex.test()</code> method returns true if a string conforms to the pattern.</p>
+        </div>
+        <div class="box-label code-label">💻 JavaScript Code:</div>
+        <div class="code-block">function regexExample() {
+  let email = document.getElementById("regexEmailInput").value.trim();
+  let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  let out = document.getElementById("regexOutput");
+  if (emailPattern.test(email)) {
+    out.innerHTML = "&lt;span class='msg-success'&gt;✅ Valid Email Pattern!&lt;/span&gt;";
+  } else {
+    out.innerHTML = "&lt;span class='msg-error'&gt;❌ Invalid Email Format (e.g. name@domain.com)&lt;/span&gt;";
+  }
+}</div>
+        <div class="box-label output-label">🌐 Output Preview:</div>
+        <div class="output-preview">
+          <input type="text" id="regexEmailInput" placeholder="test@example.com" value="student@gmail.com" style="width: 240px;">
+          <button onclick="regexExample()">Validate with RegEx</button>
+          <div id="regexOutput" class="demo-result-box">RegEx validation result...</div>
+        </div>
+      </section>
+
+      <section class="section-card" id="js-summary">
+        <div class="card-header">
+          <h2>51. JavaScript Summary & Practical Roadmap</h2>
+          <div class="tag-badges">
+            <span class="badge-tag">🎓 Revision Box</span>
+          </div>
+        </div>
+        <div class="notes-container">
+          <div class="notes-title">📝 Key Exam & Real-World JS Rules:</div>
+          <p><strong>Variables:</strong> Always prefer <code>const</code> by default, use <code>let</code> when reassignment is necessary, and avoid <code>var</code>.</p>
+          <p><strong>DOM Interaction:</strong> Use <code>document.querySelector</code> and <code>addEventListener</code> for clean separation of concerns.</p>
+          <p><strong>Async Programming:</strong> Use <code>async/await</code> paired with <code>try...catch</code> for robust network communication.</p>
+          <p><strong>Immutability:</strong> Leverage <code>map()</code>, <code>filter()</code>, and spread syntax (<code>...</code>) to maintain pure data structures.</p>
+        </div>
+        <div class="box-label output-label">🎉 Message for Students:</div>
+        <div class="output-preview" style="background: linear-gradient(135deg, #fefce8, #f8fafc); border-color: #fde047;">
+          <h3 style="color: #854d0e; margin-bottom: 8px;">Congratulations! 🚀</h3>
+          <p>You have covered the entire JavaScript syllabus from primitive types to modern ES6+ classes, async/await, and DOM manipulation.</p>
+          <p style="margin-top: 8px; font-weight: 700; color: #ca8a04;">Keep building real-world projects and practicing JavaScript daily! 💻⚡</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <p class="author-highlight">Complete JavaScript Notes • Web Development & Modern ES6+</p>
+    <p>Prepared by <strong>Pratap Sanjay Sir</strong> | Learn JavaScript with Theory, Pure Syntax & Live Interactive Previews</p>
+    <p>© <span id="year"></span> All Rights Reserved.</p>
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </footer>
+
+  <script>
+    /* =========================================================
+        GLOBAL SCRIPT DEFINITIONS FOR DEMO PREVIEWS
+        ========================================================= */
+
+    // 1. Welcome Demo
+    function showWelcome() {
+      document.getElementById("welcomeOutput").textContent = 
+        "Welcome to the world of JavaScript Programming! 🚀";
+    }
+
+    // 2. Output Demo
+    function showOutput() {
+      console.log("Hello from JavaScript Developer Console!");
+      document.getElementById("outputExample").innerHTML = 
+        "<b>Success:</b> Output rendered using <code>innerHTML</code> property!";
+    }
+
+    // 3. Variables Demo
+    function variableExample() {
+      let studentName = "Rahul Sharma";
+      const studentAge = 15;
+      studentName = "Rahul S. (Updated)";
+      document.getElementById("variableOutput").innerHTML = 
+        "<strong>Student Name (let):</strong> " + studentName + 
+        "<br><strong>Age (const):</strong> " + studentAge;
+    }
+
+    // 4. Data Types Demo
+    function dataTypeExample() {
+      let name = "Amit";
+      let age = 16;
+      let isEnrolled = true;
+      let marks;
+      document.getElementById("dataTypeOutput").innerHTML = 
+        "name ('" + name + "'): " + typeof name + "<br>" +
+        "age (" + age + "): " + typeof age + "<br>" +
+        "isEnrolled (" + isEnrolled + "): " + typeof isEnrolled + "<br>" +
+        "marks: " + typeof marks;
+    }
+
+    // 5. Operator Demo
+    function operatorExample() {
+      let a = 12, b = 5;
+      document.getElementById("operatorOutput").innerHTML = 
+        "Addition (12 + 5): " + (a + b) + "<br>" +
+        "Multiplication (12 * 5): " + (a * b) + "<br>" +
+        "Modulus Remainder (12 % 5): " + (a % b) + "<br>" +
+        "Strict Equality (12 === '12'): " + (a === "12");
+    }
+
+    // 6. If Else Demo
+    function checkAge() {
+      let age = Number(document.getElementById("ageInput").value);
+      let result = "";
+      if (age >= 18) {
+        result = "✅ You are an eligible adult voter (Age: " + age + ").";
+      } else if (age > 0) {
+        result = "👶 You are a minor under 18 (Age: " + age + ").";
+      } else {
+        result = "⚠️ Please enter a valid positive age.";
+      }
+      document.getElementById("ageOutput").textContent = result;
+    }
+
+    // 7. Switch Demo
+    function checkDay() {
+      let dayVal = document.getElementById("dayInput").value;
+      let text = "";
+      switch (dayVal) {
+        case "1": text = "📅 Monday: Fresh Start of the week!"; break;
+        case "2": text = "📅 Tuesday: Coding and learning!"; break;
+        case "3": text = "📅 Wednesday: Midweek productivity!"; break;
+        case "4": text = "📅 Thursday: Project development!"; break;
+        case "5": text = "🎉 Friday: Weekend is loading!"; break;
+        default:  text = "🌟 Weekend / Holiday!";
+      }
+      document.getElementById("dayOutput").textContent = text;
+    }
+
+    // 8. For Loop Demo
+    function forLoopExample() {
+      let result = "";
+      for (let i = 1; i <= 5; i++) {
+        result += "Iteration " + i + ": Square = " + (i * i) + "<br>";
+      }
+      document.getElementById("forOutput").innerHTML = result;
+    }
+
+    // 9. While Loop Demo
+    function whileLoopExample() {
+      let count = 10;
+      let text = "";
+      while (count <= 50) {
+        text += count + " ";
+        count += 10;
+      }
+      document.getElementById("whileOutput").textContent = "Multiples of 10: " + text;
+    }
+
+    // 10. Do While Demo
+    function doWhileExample() {
+      let i = 1;
+      let output = "";
+      do {
+        output += "Step " + i + " executed | ";
+        i++;
+      } while (i <= 3);
+      document.getElementById("doWhileOutput").textContent = output;
+    }
+
+    // 11. Function Demo
+    function greetUser() {
+      const time = new Date().toLocaleTimeString();
+      document.getElementById("functionOutput").textContent = 
+        "Hello! Function executed successfully at " + time;
+    }
+
+    // 12. Parameter Demo
+    function makeGreeting(userName) {
+      return "Welcome, " + userName + "! Happy coding in JavaScript.";
+    }
+    function parameterExample() {
+      let val = document.getElementById("nameInput").value.trim() || "Student";
+      document.getElementById("parameterOutput").textContent = makeGreeting(val);
+    }
+
+    // 13. Return Value Demo
+    function multiply(x, y) { return x * y; }
+    function returnExample() {
+      let n1 = Number(document.getElementById("num1").value);
+      let n2 = Number(document.getElementById("num2").value);
+      document.getElementById("returnOutput").textContent = 
+        "Calculated Product (" + n1 + " × " + n2 + ") = " + multiply(n1, n2);
+    }
+
+    // 14. Arrow Function Demo
+    const calculateCube = n => n * n * n;
+    function arrowFunctionExample() {
+      let num = 4;
+      document.getElementById("arrowOutput").textContent = 
+        `Cube of ${num} evaluated via Arrow Function = ${calculateCube(num)}`;
+    }
+
+    // 15. Array Demo
+    function arrayExample() {
+      let subjects = ["HTML5", "CSS3", "JavaScript", "ReactJS", "NodeJS"];
+      document.getElementById("arrayOutput").innerHTML = 
+        "<strong>Full Array:</strong> [" + subjects.join(", ") + "]<br>" +
+        "<strong>Total Items:</strong> " + subjects.length + "<br>" +
+        "<strong>First Element [0]:</strong> " + subjects[0];
+    }
+
+    // 16. Array Methods Demo
+    function arrayMethodsExample() {
+      let fruits = ["Apple", "Banana"];
+      fruits.push("Mango");
+      fruits.unshift("Orange");
+      fruits.pop();
+      document.getElementById("arrayMethodsOutput").textContent = 
+        "Modified Array: " + JSON.stringify(fruits);
+    }
+
+    // 17. Array Loop Demo
+    function arrayLoopExample() {
+      const students = ["Rahul", "Aman", "Priya", "Neha", "Rohit"];
+      let html = "<ul>";
+      for (const student of students) {
+        html += "<li>Student: " + student + "</li>";
+      }
+      html += "</ul>";
+      document.getElementById("arrayLoopOutput").innerHTML = html;
+    }
+
+    // 18. Map Demo
+    function mapExample() {
+      const numbers = [2, 4, 6, 8, 10];
+      const doubled = numbers.map(num => num * 2);
+      document.getElementById("mapOutput").innerHTML = 
+        "Original Numbers: [" + numbers.join(", ") + "]<br>" +
+        "Doubled via map(): [" + doubled.join(", ") + "]";
+    }
+
+    // 19. Filter Demo
+    function filterExample() {
+      const marks = [45, 82, 33, 91, 58, 76, 29];
+      const passingMarks = marks.filter(score => score >= 50);
+      document.getElementById("filterOutput").innerHTML = 
+        "All Scores: [" + marks.join(", ") + "]<br>" +
+        "Passing Scores (≥ 50): <strong>[" + passingMarks.join(", ") + "]</strong>";
+    }
+
+    // 20. Reduce Demo
+    function reduceExample() {
+      const cartPrices = [120, 250, 499, 80];
+      const total = cartPrices.reduce((acc, cur) => acc + cur, 0);
+      document.getElementById("reduceOutput").textContent = 
+        "Items: [" + cartPrices.join(", ") + "] ➔ Total Cart Price = ₹" + total;
+    }
+
+    // 21. Object Demo
+    function objectExample() {
+      const student = { name: "Rahul Sharma", rollNumber: 101, grade: "8th Standard" };
+      document.getElementById("objectOutput").innerHTML = 
+        "Name: " + student.name + "<br>Roll No: " + student.rollNumber + "<br>Grade: " + student.grade;
+    }
+
+    // 22. Object Method Demo
+    const userAccount = {
+      firstName: "Aman",
+      lastName: "Verma",
+      getFullName: function() { return this.firstName + " " + this.lastName; }
+    };
+    function objectMethodExample() {
+      document.getElementById("objectMethodOutput").textContent = 
+        "Full Name from Method: " + userAccount.getFullName();
+    }
+
+    // 23. String Method Demo
+    function stringExample() {
+      let str = "Learn JavaScript Today";
+      document.getElementById("stringOutput").innerHTML = 
+        "Original String: '" + str + "'<br>" +
+        "Length: " + str.length + "<br>" +
+        "Uppercase: " + str.toUpperCase() + "<br>" +
+        "Sliced (0, 5): " + str.slice(0, 5) + "<br>" +
+        "Replaced: " + str.replace("Today", "Everyday!");
+    }
+
+    // 24. Number Method Demo
+    function numberExample() {
+      let pi = 3.14159265;
+      document.getElementById("numberOutput").innerHTML = 
+        "pi.toFixed(2): " + pi.toFixed(2) + "<br>" +
+        "parseInt('42px'): " + parseInt("42px") + "<br>" +
+        "isNaN('Hello'): " + isNaN("Hello");
+    }
+
+    // 25. DOM Demo
+    function changeDOM() {
+      const el = document.getElementById("domDemoText");
+      el.textContent = "⚡ Text changed dynamically via JavaScript DOM API!";
+      el.style.color = "#2563eb";
+      el.style.fontWeight = "bold";
+    }
+
+    // 26. ID Demo
+    function changeTargetText() {
+      const target = document.getElementById("specificTarget");
+      target.textContent = "ID Element located and modified successfully! 🎉";
+      target.style.background = "#dcfce7";
+    }
+
+    // 27. QuerySelector Demo
+    function queryExample() {
+      const item = document.querySelector(".query-highlight-box");
+      item.style.backgroundColor = "#fed7aa";
+      item.style.border = "2px solid #ea580c";
+      item.textContent = "Styled via querySelector('.query-highlight-box')";
+    }
+
+    // 28. CreateElement Demo
+    function createElementExample() {
+      const container = document.getElementById("newElementArea");
+      const newBadge = document.createElement("span");
+      newBadge.textContent = "🏷️ New Item (" + (container.children.length + 1) + ") ";
+      newBadge.style.cssText = "display:inline-block; background:#e0e7ff; color:#3730a3; padding:4px 10px; border-radius:4px; margin:4px; font-weight:600;";
+      container.appendChild(newBadge);
+    }
+
+    // 29. Events Demo
+    function handleButtonClick() {
+      document.getElementById("eventOutput").textContent = 
+        "Event Triggered: onclick handler responded to user click!";
+    }
+
+    // 30. EventListener Setup
+    document.addEventListener("DOMContentLoaded", () => {
+      const btn = document.getElementById("listenerDemoBtn");
+      if (btn) {
+        btn.addEventListener("click", function() {
+          document.getElementById("listenerOutput").textContent = 
+            "✅ addEventListener('click') fired successfully!";
+        });
+      }
+    });
+
+    // 31. Form Validation Demo
+    function validateUserForm() {
+      let name = document.getElementById("userNameInput").value.trim();
+      let msg = document.getElementById("validationOutput");
+      if (name === "") {
+        msg.innerHTML = "<span class='msg-error'>❌ Error: Name field cannot be empty!</span>";
+      } else {
+        msg.innerHTML = "<span class='msg-success'>✅ Success: Welcome, " + name + "! Form is valid.</span>";
+      }
+    }
+
+    // 32. Math Demo
+    function mathExample() {
+      let rand = Math.floor(Math.random() * 100) + 1;
+      document.getElementById("mathOutput").innerHTML = 
+        "Square root of 64: " + Math.sqrt(64) + "<br>" +
+        "2 to the power 4: " + Math.pow(2, 4) + "<br>" +
+        "Random Integer (1-100): <strong>" + rand + "</strong>";
+    }
+
+    // 33. Date Demo
+    function showLiveDate() {
+      let d = new Date();
+      document.getElementById("dateOutput").innerHTML = 
+        "<strong>Full String:</strong> " + d.toString() + "<br>" +
+        "<strong>Formatted Date:</strong> " + d.toLocaleDateString() + "<br>" +
+        "<strong>Formatted Time:</strong> " + d.toLocaleTimeString();
+    }
+
+    // 34. setTimeout Demo
+    function timeoutExample() {
+      const box = document.getElementById("timeoutOutput");
+      box.textContent = "⏳ Timer started... waiting 2 seconds...";
+      setTimeout(() => {
+        box.textContent = "🎉 2 seconds elapsed! Timer callback executed.";
+      }, 2000);
+    }
+
+    // 35. setInterval Demo
+    let countTimer = 0;
+    let timerId = null;
+    function startCounter() {
+      if (timerId !== null) return;
+      timerId = setInterval(() => {
+        countTimer++;
+        document.getElementById("counterOutput").textContent = "Seconds: " + countTimer;
+      }, 1000);
+    }
+    function stopCounter() {
+      clearInterval(timerId);
+      timerId = null;
+    }
+
+    // 36. JSON Demo
+    function jsonExample() {
+      const student = { name: "Priya", age: 14, subjects: ["Math", "Science"] };
+      const jsonStr = JSON.stringify(student);
+      const parsedObj = JSON.parse(jsonStr);
+      document.getElementById("jsonOutput").innerHTML = 
+        "<strong>JSON String:</strong> " + jsonStr + "<br>" +
+        "<strong>Parsed Name:</strong> " + parsedObj.name;
+    }
+
+    // 37. Destructuring Demo
+    function destructuringExample() {
+      const user = { username: "rajesh99", role: "Instructor", country: "India" };
+      const { username, role, country } = user;
+      document.getElementById("destructuringOutput").innerHTML = 
+        `User: ${username} | Role: ${role} | Country: ${country}`;
+    }
+
+    // 38. Spread Demo
+    function spreadExample() {
+      const frontEnd = ["HTML", "CSS", "JS"];
+      const backEnd = ["NodeJS", "Express", "MongoDB"];
+      const fullStack = [...frontEnd, ...backEnd, "Git"];
+      document.getElementById("spreadOutput").textContent = 
+        "Merged Stack: [" + fullStack.join(", ") + "]";
+    }
+
+    // 39. Rest Demo
+    function sumAll(...numbers) {
+      return numbers.reduce((acc, n) => acc + n, 0);
+    }
+    function restExample() {
+      document.getElementById("restOutput").innerHTML = 
+        "sumAll(10, 20, 30) = " + sumAll(10, 20, 30) + "<br>" +
+        "sumAll(5, 10, 15, 20, 25, 30) = " + sumAll(5, 10, 15, 20, 25, 30);
+    }
+
+    // 40. Template Demo
+    function templateExample() {
+      const item = "Laptop";
+      const total = 45000 * 1.18;
+      document.getElementById("templateOutput").textContent = 
+        `Product: ${item} | Net Total: ₹${total.toLocaleString('en-IN')}`;
+    }
+
+    // 41. Try Catch Demo
+    function errorExample() {
+      try {
+        unknownVariableTest();
+      } catch (error) {
+        document.getElementById("errorOutput").innerHTML = 
+          "<span class='msg-error'>Caught Error: " + error.name + " - " + error.message + "</span>";
+      }
+    }
+
+    // 42. Class Demo
+    class StudentClass {
+      constructor(name, subject) { this.name = name; this.subject = subject; }
+      describe() { return `${this.name} is studying ${this.subject}.`; }
+    }
+    function classExample() {
+      const s1 = new StudentClass("Anjali", "Computer Science");
+      document.getElementById("classOutput").textContent = s1.describe();
+    }
+
+    // 43. Constructor Demo
+    class Vehicle {
+      constructor(brand, model, year) {
+        this.brand = brand; this.model = model; this.year = year;
+      }
+    }
+    function constructorExample() {
+      const car = new Vehicle("Tata", "Nexon EV", 2024);
+      document.getElementById("constructorOutput").innerHTML = 
+        `Brand: ${car.brand} | Model: ${car.model} | Year: ${car.year}`;
+    }
+
+    // 44. Inheritance Demo
+    class AnimalClass {
+      constructor(name) { this.name = name; }
+      makeSound() { return `${this.name} makes a sound.`; }
+    }
+    class DogClass extends AnimalClass {
+      bark() { return `${this.name} barks: Woof Woof! 🐶`; }
+    }
+    function inheritanceExample() {
+      const myDog = new DogClass("Buddy");
+      document.getElementById("inheritanceOutput").innerHTML = 
+        myDog.makeSound() + "<br>" + myDog.bark();
+    }
+
+    // 45. Promise Demo
+    function promiseExample() {
+      const box = document.getElementById("promiseOutput");
+      box.textContent = "Promise pending...";
+      new Promise(resolve => setTimeout(() => resolve("✅ Promise fulfilled successfully after 1.5s!"), 1500))
+        .then(result => { box.textContent = result; });
+    }
+
+    // 46. Async Await Demo
+    async function asyncExample() {
+      const box = document.getElementById("asyncOutput");
+      box.textContent = "⏳ Step 1: Processing async task...";
+      await new Promise(r => setTimeout(r, 1200));
+      box.textContent = "⚡ Step 2: Await finished! Task completed cleanly.";
+    }
+
+    // 47. Fetch API Demo
+    async function fetchExample() {
+      const box = document.getElementById("fetchOutput");
+      box.textContent = "Fetching user data from API...";
+      try {
+        const res = await fetch("https://jsonplaceholder.typicode.com/users/1");
+        const user = await res.json();
+        box.innerHTML = 
+          "<strong>Name:</strong> " + user.name + "<br>" +
+          "<strong>Email:</strong> " + user.email + "<br>" +
+          "<strong>City:</strong> " + user.address.city;
+      } catch (err) {
+        box.textContent = "Error fetching data: " + err.message;
+      }
+    }
+
+    // 48. LocalStorage Demo
+    function saveLocalData() {
+      let val = document.getElementById("storageInput").value;
+      localStorage.setItem("myStudyNote", val);
+      document.getElementById("storageOutput").textContent = "💾 Data saved to localStorage!";
+    }
+    function getLocalData() {
+      let saved = localStorage.getItem("myStudyNote");
+      document.getElementById("storageOutput").textContent = 
+        saved ? "📂 Retrieved: " + saved : "No item found in localStorage.";
+    }
+    function clearLocalData() {
+      localStorage.removeItem("myStudyNote");
+      document.getElementById("storageOutput").textContent = "🗑️ Item removed from storage.";
+    }
+
+    // 49. SessionStorage Demo
+    function sessionExample() {
+      sessionStorage.setItem("activeSessionUser", "Student_Class8");
+      let user = sessionStorage.getItem("activeSessionUser");
+      document.getElementById("sessionOutput").textContent = 
+        "Session Active for: " + user + " (Cleared when tab closes)";
+    }
+
+    // 50. Regex Demo
+    function regexExample() {
+      let email = document.getElementById("regexEmailInput").value.trim();
+      let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      let out = document.getElementById("regexOutput");
+      if (emailPattern.test(email)) {
+        out.innerHTML = "<span class='msg-success'>✅ Valid Email Pattern!</span>";
+      } else {
+        out.innerHTML = "<span class='msg-error'>❌ Invalid Email Format (e.g. name@domain.com)</span>";
+      }
+    }
+  </script>
+
+</body>
+</html>
